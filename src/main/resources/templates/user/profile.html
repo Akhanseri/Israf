@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<h1>User Profile</h1>
+<p>Restaurant Name: ${restaurant.name}</p>
+<p>Description: ${restaurant.description}</p>
+<p>Address: ${restaurant.address}</p>
+<p>Status: ${restaurant.isOpen ? 'Open' : 'Closed'}</p>
+<form action="/change-status/${restaurant.id}" method="post">
+    <input type="checkbox" name="isOpen" value="true" ${restaurant.isOpen ? 'checked' : ''}>
+    <label for="isOpen">Open</label>
+    <br>
+    <input type="submit" value="Save">
+</form>
+<a href="/edit-user/${restaurant.person.id}">Edit Profile</a>
+</body>
+</html>

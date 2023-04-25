@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+</head>
+<body>
+<h1>Edit User</h1>
+
+<form method="post" th:action="@{/admin/save-user}">
+  <input type="hidden" name="id" th:value="${user.id}">
+  <label>Username:</label><br>
+  <input type="text" name="username" th:value="${user.username}" required><br>
+  <label>Password:</label><br>
+  <input type="password" name="password" th:value="${user.password}" required><br>
+  <label>Role:</label><br>
+  <input type="text" name="role" th:value="${user.role}" required><br>
+  <label>Restaurant Name:</label><br>
+  <input type="text" name="restaurant.name" th:value="${user.restaurant.name}" required><br>
+  <label>Restaurant Description:</label><br>
+  <input type="text" name="restaurant.description" th:value="${user.restaurant.description}" required><br>
+  <label>Restaurant Address:</label><br>
+  <input type="text" name="restaurant.address" th:value="${user.restaurant.address}" required><br>
+  <label>Is the Restaurant Open:</label><br>
+  <input type="checkbox" name="restaurant.isOpen" th:checked="${user.restaurant.isOpen}"><br>
+  <input type="submit" value="Save Changes">
+</form>
+</body>
+</html>

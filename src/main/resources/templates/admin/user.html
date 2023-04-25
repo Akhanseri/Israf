@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Details</title>
+</head>
+<body>
+<h1>User Details</h1>
+
+<table>
+  <tr>
+    <td>Username:</td>
+    <td th:text="${user.username}"></td>
+  </tr>
+  <tr>
+    <td>Password:</td>
+    <td th:text="${user.password}"></td>
+  </tr>
+  <tr>
+    <td>Role:</td>
+    <td th:text="${user.role}"></td>
+  </tr>
+  <tr>
+    <td>Restaurant Name:</td>
+    <td th:text="${user.restaurant.name}"></td>
+  </tr>
+  <tr>
+    <td>Restaurant Description:</td>
+    <td th:text="${user.restaurant.description}"></td>
+  </tr>
+  <tr>
+    <td>Restaurant Address:</td>
+    <td th:text="${user.restaurant.address}"></td>
+  </tr>
+  <tr>
+    <td>Is the Restaurant Open:</td>
+    <td>
+      <span th:if="${user.restaurant.isOpen}">Yes</span>
+      <span th:unless="${user.restaurant.isOpen}">No</span>
+    </td>
+  </tr>
+</table>
+
+<a th:href="@{/admin/edit-user/{id}(id=${user.id})}">Edit</a>
+</body>
+</html>
