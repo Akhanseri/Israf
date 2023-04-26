@@ -12,6 +12,7 @@ public class Restaurant  {
 
     @OneToOne
     @JoinColumn (name = "person_id",referencedColumnName = "id")
+    @JsonIgnore
     private Person person;
 
     @Column(name="name")
