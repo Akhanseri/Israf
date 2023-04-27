@@ -22,6 +22,10 @@
     <td th:text="${user.role}"></td>
     <td th:text="${user.restaurant.name}"></td>
     <td>
+      <form th:action="@{/admin/delete-user}" method="post">
+        <input type="hidden" name="id" th:value="${user.id}">
+        <button type="submit">Delete</button>
+      </form>
       <a th:href="@{/admin/user/{id}(id=${user.id})}">View</a>
       <a th:href="@{/admin/edit-user/{id}(id=${user.id})}">Edit</a>
     </td>
