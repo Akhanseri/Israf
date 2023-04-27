@@ -21,8 +21,8 @@
   <input type="text" name="restaurant.description" th:value="${user.restaurant.description}" required><br>
   <label>Restaurant Address:</label><br>
   <input type="text" name="restaurant.address" th:value="${user.restaurant.address}" required><br>
-  <label>Is the Restaurant Open:</label><br>
-  <select name="restaurant.isOpen" th:value="${user.restaurant.open}">
+
+  <select name="restaurant.open">
     <option value="true" th:selected="${user.restaurant.open}">Open</option>
     <option value="false" th:selected="${!user.restaurant.open}">Closed</option>
   </select>
@@ -30,3 +30,4 @@
 </form>
 </body>
 </html>
+
