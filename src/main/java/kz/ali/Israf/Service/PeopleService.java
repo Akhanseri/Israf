@@ -1,6 +1,7 @@
 package kz.ali.Israf.Service;
 
 import kz.ali.Israf.Repository.PeopleRepository;
+import kz.ali.Israf.Repository.RestaurantRepository;
 import kz.ali.Israf.models.Person;
 import kz.ali.Israf.security.PersonDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,15 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PeopleService implements UserDetailsService {
     private final PeopleRepository peopleRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository repository) {
-        this.peopleRepository = repository;
+    public PeopleService(PeopleRepository peopleRepository, RestaurantRepository restaurantRepository) {
+        this.peopleRepository = peopleRepository;
+        this.restaurantRepository = restaurantRepository;
     }
+
+
     public List<Person> findAll(){
         return peopleRepository.findAll();
     }
@@ -43,6 +48,18 @@ public class PeopleService implements UserDetailsService {
         Optional<Person> foundPerson = peopleRepository.findById(id);
         return foundPerson.orElse(null);
     }
+
+    public void deleteById(int id) {
+        Person personToDelete = findOne(id);
+        if (personToDelete.getRestaurant() != null) {
+            personToDelete.getRestaurant().setPerson(null);
+            restaurantRepository.delete(personToDelete.getRestaurant());
+        }
+        peopleRepository.delete(personToDelete);
+    }
+
+
+}
 
 
 }
