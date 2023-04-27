@@ -35,9 +35,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().
-                requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/login", "/api/**", "/error").permitAll()
+                .authorizeRequests()
+                .requestMatchers("/login", "/api/**", "/error","/user/**","/admin/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
@@ -53,6 +52,12 @@ public class SecurityConfig {
     public PasswordEncoder getPasswordEncoder(){
         return NoOpPasswordEncoder.getInstance();
     }
+
+
+
+
+
+}
 
 
 
