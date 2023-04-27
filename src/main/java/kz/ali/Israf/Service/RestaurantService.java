@@ -41,4 +41,11 @@ public class RestaurantService  {
         return foundRestaurant.orElse(null);
     }
 
+    public void delete(Restaurant restaurant){
+        restaurantRepository.delete(restaurant);
+    }
+
+}
+
+
 }
