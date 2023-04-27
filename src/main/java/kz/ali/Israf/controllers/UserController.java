@@ -40,11 +40,13 @@ public class UserController {
             Restaurant restaurant = optionalRestaurant.get();
             restaurant.setOpen(isOpen);
             restaurantRepository.save(restaurant);
-            return "redirect:/user/" + id;
+            return "redirect:/user/{id}";
         } else {
             // handle restaurant not found error
             return "error";
         }
     }
+
+}
 
 }
