@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>User Profile</title>
 </head>
 <body>
-<h1>User Profile</h1>
-<p>Restaurant Name: ${restaurant.name}</p>
-<p>Description: ${restaurant.description}</p>
-<p>Address: ${restaurant.address}</p>
-<p>Status: ${restaurant.isOpen ? 'Open' : 'Closed'}</p>
-<form action="/change-status/${restaurant.id}" method="post">
-    <input type="checkbox" name="isOpen" value="true" ${restaurant.isOpen ? 'checked' : ''}>
-    <label for="isOpen">Open</label>
-    <br>
-    <input type="submit" value="Save">
+<h1>Restaurant Details</h1>
+<h2>Name: <span th:text="${restaurant.name}"></span></h2>
+<h2>Address: <span th:text="${restaurant.address}"></span></h2>
+<h2>Description: <span th:text="${restaurant.description}"></span></h2>
+<h2>Status: <span th:text="${restaurant.isOpen} ? 'Open' : 'Closed'"></span></h2>
+
+<form method="post" th:action="@{/user/change-status/{id}(id=${restaurant.id})}">
+    <div>
+        <select name="isOpen" id="isOpen" th:selected="${restaurant.isOpen}">
+            <option value="true">Open</option>
+            <option value="false">Closed</option>
+        </select>
+        <label for="isOpen">Is Open?</label>
+    </div>
+    <button type="submit">Save Changes</button>
 </form>
-<a href="/edit-user/${restaurant.person.id}">Edit Profile</a>
 </body>
 </html>
+
