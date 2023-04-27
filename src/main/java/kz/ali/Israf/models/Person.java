@@ -17,8 +17,7 @@ public class Person {
 
     @Column(name = "role")
     private String role;
-    @OneToOne(mappedBy = "person")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
     private Restaurant restaurant;
 
     public Person(String username, String password,String role, Restaurant restaurant) {
