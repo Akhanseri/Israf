@@ -1,5 +1,6 @@
 package kz.ali.Israf.controllers;
 
+import kz.ali.Israf.Repository.PeopleRepository;
 import kz.ali.Israf.Service.PeopleService;
 import kz.ali.Israf.Service.RestaurantService;
 import kz.ali.Israf.models.Person;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,10 +21,13 @@ public class AdminController {
 
     private final RestaurantService restaurantService;
 
+    private final PeopleRepository peopleRepository;
+
     @Autowired
-    public AdminController(PeopleService peopleService, RestaurantService restaurantService) {
+    public AdminController(PeopleService peopleService, RestaurantService restaurantService,PeopleRepository peopleRepository) {
         this.peopleService = peopleService;
         this.restaurantService = restaurantService;
+        this.peopleRepository = peopleRepository;
     }
 
 
@@ -55,6 +60,26 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @PostMapping("/delete-user")
+    public String deleteUser(@RequestParam("id") int id) {
+        // Находим пользователя по id
+        Optional<Person> personOptional = peopleRepository.findById(id);
+
+        if (personOptional.isPresent()) {
+            Person person = personOptional.get();
+
+            // Удаляем ресторан, если у пользователя был связанный ресторан
+            if (person.getRestaurant() != null) {
+                restaurantService.delete(person.getRestaurant());
+            }
+
+            // Удаляем пользователя
+            peopleRepository.delete(person);
+        }
+
+        return "redirect:/admin/users";
+    }
+
     @GetMapping("/edit-user/{id}")
     public String editUser(@PathVariable("id") int id, Model model) {
         Person user = peopleService.findOne(id);
@@ -79,6 +104,7 @@ public class AdminController {
         existingUser.setUsername(user.getUsername());
         existingUser.setPassword(user.getPassword());
         existingUser.setRole(user.getRole());
+
 
 
         // Обновите свойства связанного объекта ресторана, если он существует
