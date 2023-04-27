@@ -18,6 +18,7 @@ public class AdminController {
     private final PeopleService peopleService;
 
     private final RestaurantService restaurantService;
+
     @Autowired
     public AdminController(PeopleService peopleService, RestaurantService restaurantService) {
         this.peopleService = peopleService;
@@ -25,10 +26,15 @@ public class AdminController {
     }
 
 
-
     @GetMapping("/users")
     public String getAllUsers(Model model) {
         List<Person> users = peopleService.findAll();
+        for (Person user : users) {
+            Restaurant restaurant = user.getRestaurant();
+            if (restaurant != null) {
+                restaurant.setPerson(user);
+            }
+        }
         model.addAttribute("users", users);
         return "admin/users";
     }
@@ -44,6 +50,7 @@ public class AdminController {
 
     @PostMapping("/save-user")
     public String saveUser(@ModelAttribute("user") Person user) {
+        user.getRestaurant().setPerson(user);
         peopleService.save(user);
         return "redirect:/admin/users";
     }
@@ -51,6 +58,7 @@ public class AdminController {
     @GetMapping("/edit-user/{id}")
     public String editUser(@PathVariable("id") int id, Model model) {
         Person user = peopleService.findOne(id);
+        user.getRestaurant().setPerson(user);
         model.addAttribute("user", user);
         return "admin/edit-user";
     }
@@ -58,13 +66,34 @@ public class AdminController {
     @GetMapping("/user/{id}")
     public String getUserById(@PathVariable("id") int id, Model model) {
         Person user = peopleService.findOne(id);
+        user.getRestaurant().setPerson(user);
         model.addAttribute("user", user);
         return "admin/user";
     }
 
     @PostMapping("/update-user")
     public String updateUser(@ModelAttribute("user") Person user) {
-        peopleService.save(user);
+        Person existingUser = peopleService.findOne(user.getId());
+
+        // Обновите свойства объекта existingUser
+        existingUser.setUsername(user.getUsername());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setRole(user.getRole());
+
+
+        // Обновите свойства связанного объекта ресторана, если он существует
+        if (existingUser.getRestaurant() != null) {
+            Restaurant restaurant = existingUser.getRestaurant();
+            restaurant.setName(user.getRestaurant().getName());
+            restaurant.setAddress(user.getRestaurant().getAddress());
+            restaurant.setDescription(user.getRestaurant().getDescription());
+            restaurant.setOpen(user.getRestaurant().isOpen());
+
+        }
+
+        // Сохраните обновленный объект existingUser в базе данных
+        peopleService.save(existingUser);
         return "redirect:/admin/users";
     }
+}
 }
