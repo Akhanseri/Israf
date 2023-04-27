@@ -7,7 +7,7 @@
 <body>
 <h1>Edit User</h1>
 
-<form method="post" th:action="@{/admin/save-user}">
+<form method="post" th:action="@{/admin/update-user}">
   <input type="hidden" name="id" th:value="${user.id}">
   <label>Username:</label><br>
   <input type="text" name="username" th:value="${user.username}" required><br>
@@ -22,7 +22,10 @@
   <label>Restaurant Address:</label><br>
   <input type="text" name="restaurant.address" th:value="${user.restaurant.address}" required><br>
   <label>Is the Restaurant Open:</label><br>
-  <input type="checkbox" name="restaurant.isOpen" th:checked="${user.restaurant.isOpen}"><br>
+  <select name="restaurant.isOpen" th:value="${user.restaurant.open}">
+    <option value="true" th:selected="${user.restaurant.open}">Open</option>
+    <option value="false" th:selected="${!user.restaurant.open}">Closed</option>
+  </select>
   <input type="submit" value="Save Changes">
 </form>
 </body>
