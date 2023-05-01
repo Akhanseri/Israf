@@ -1,5 +1,6 @@
 package kz.ali.Israf.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity

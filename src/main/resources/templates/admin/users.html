@@ -7,6 +7,7 @@
 <body>
 <h1>Users</h1>
 
+
 <table>
   <thead>
   <tr>
@@ -34,6 +35,11 @@
 </table>
 
 <a th:href="@{/admin/new-user}">Create New User</a>
+
+<form th:action="@{/logout}" method="post">
+  <input type="submit" value="Logout">
+</form>
+
 </body>
 </html>
 

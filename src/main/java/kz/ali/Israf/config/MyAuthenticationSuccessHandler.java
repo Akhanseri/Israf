@@ -24,7 +24,13 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Optional<Person> person = peopleRepository.findByUsername(userDetails.getUsername());
-        response.sendRedirect(request.getContextPath() + "/user/" + person.get().getRestaurant().getId());
+        if (person.isPresent() && authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("user"))) {
+            response.sendRedirect(request.getContextPath() + "/user/" + person.get().getRestaurant().getId());
+        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("admin"))) {
+            response.sendRedirect(request.getContextPath() + "/admin/users");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/home");
+        }
     }
 }
 

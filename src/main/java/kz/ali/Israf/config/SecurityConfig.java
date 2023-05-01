@@ -34,16 +34,22 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .requestMatchers("/login", "/api/**", "/error","/user/**","/admin/**").permitAll()
+        http
+                .authorizeRequests()
+                .requestMatchers("/login", "/api/**", "/error").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("admin")
+                .requestMatchers("/user/{id}").access("@mySecurity.checkRestaurant(authentication,#id)")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login")
+                .formLogin()
+                .loginPage("/login")
                 .loginProcessingUrl("/process_login")
                 .successHandler(successHandler)
                 .failureUrl("/login?error")
-                .and().logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/login");;
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
 
         return http.build();
     }
@@ -53,15 +59,6 @@ public class SecurityConfig {
     public PasswordEncoder getPasswordEncoder(){
         return NoOpPasswordEncoder.getInstance();
     }
-
-
-
-
-
-}
-
-
-
 
 
 }
