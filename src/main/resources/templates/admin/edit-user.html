@@ -21,6 +21,10 @@
   <input type="text" name="restaurant.description" th:value="${user.restaurant.description}" required><br>
   <label>Restaurant Address:</label><br>
   <input type="text" name="restaurant.address" th:value="${user.restaurant.address}" required><br>
+  <label>Longitude:</label><br>
+  <input type="number" name="restaurant.longitude" th:value="${user.restaurant.longitude}" step="0.0000001" required><br>
+  <label>Latitude:</label><br>
+  <input type="number" name="restaurant.latitude" th:value="${user.restaurant.latitude}" step="0.0000001" required><br>
 
   <select name="restaurant.open">
     <option value="true" th:selected="${user.restaurant.open}">Open</option>

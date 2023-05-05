@@ -97,7 +97,8 @@ public class AdminController {
     }
 
     @PostMapping("/update-user")
-    public String updateUser(@ModelAttribute("user") Person user) {
+    public String updateUser(@ModelAttribute("user") Person user, @RequestParam("restaurant.longitude") double longitude,
+                             @RequestParam("restaurant.latitude") double latitude) {
         Person existingUser = peopleService.findOne(user.getId());
 
         // Обновите свойства объекта existingUser
@@ -114,6 +115,9 @@ public class AdminController {
             restaurant.setAddress(user.getRestaurant().getAddress());
             restaurant.setDescription(user.getRestaurant().getDescription());
             restaurant.setOpen(user.getRestaurant().isOpen());
+            restaurant.setLatitude(latitude);
+            restaurant.setLongitude(longitude);
+
 
         }
 

@@ -27,8 +27,25 @@ public class Restaurant  {
     @Column(name = "is_open")
     private boolean isOpen;
 
+    @Column(name="latitude")
+    private double latitude;
+
+    @Column(name="longitude")
+    private double longitude;
+
+
     public int getId() {
         return id;
+    }
+
+    public Restaurant(Person person, String name, String description, String address, boolean isOpen, long latitude, long longitude) {
+        this.person = person;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.isOpen = isOpen;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void setId(int id) {
@@ -81,6 +98,22 @@ public class Restaurant  {
         this.description = description;
         this.address = address;
         this.isOpen = isOpen;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public Restaurant() {
