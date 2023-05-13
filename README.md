@@ -33,6 +33,8 @@ CREATE TABLE Restaurant(
               description varchar,
               address varchar,
               is_open boolean,
+              latitude numeric(10,6),
+              longitude numeric(10,6)
               person_id int UNIQUE REFERENCES Person (id) ON DELETE CASCADE
           
           )
