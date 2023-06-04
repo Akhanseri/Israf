@@ -3,12 +3,14 @@ package kz.ali.Israf.controllers;
 import kz.ali.Israf.Repository.PeopleRepository;
 import kz.ali.Israf.Service.PeopleService;
 import kz.ali.Israf.Service.RestaurantService;
+import kz.ali.Israf.Service.StorageService;
 import kz.ali.Israf.models.Person;
 import kz.ali.Israf.models.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +25,15 @@ public class AdminController {
 
     private final PeopleRepository peopleRepository;
 
+    private final StorageService storageService;
+
+
     @Autowired
-    public AdminController(PeopleService peopleService, RestaurantService restaurantService,PeopleRepository peopleRepository) {
+    public AdminController(PeopleService peopleService, RestaurantService restaurantService,PeopleRepository peopleRepository,StorageService storageService) {
         this.peopleService = peopleService;
         this.restaurantService = restaurantService;
         this.peopleRepository = peopleRepository;
+        this.storageService = storageService;
     }
 
 
@@ -54,7 +60,12 @@ public class AdminController {
     }
 
     @PostMapping("/save-user")
-    public String saveUser(@ModelAttribute("user") Person user) {
+    public String saveUser(@ModelAttribute("user") Person user,
+                           @RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            String imageUrl = storageService.uploadFile(file);
+            user.getRestaurant().setImageUrl(imageUrl);
+        }
         user.getRestaurant().setPerson(user);
         peopleService.save(user);
         return "redirect:/admin/users";
@@ -97,8 +108,11 @@ public class AdminController {
     }
 
     @PostMapping("/update-user")
-    public String updateUser(@ModelAttribute("user") Person user, @RequestParam("restaurant.longitude") double longitude,
+    public String updateUser(@ModelAttribute("user") Person user,
+                             @RequestParam("file") MultipartFile file,
+                             @RequestParam("restaurant.longitude") double longitude,
                              @RequestParam("restaurant.latitude") double latitude) {
+
         Person existingUser = peopleService.findOne(user.getId());
 
         // Обновите свойства объекта existingUser
@@ -117,6 +131,10 @@ public class AdminController {
             restaurant.setOpen(user.getRestaurant().isOpen());
             restaurant.setLatitude(latitude);
             restaurant.setLongitude(longitude);
+            if (!file.isEmpty()) {
+                String imageUrl = storageService.uploadFile(file);
+                user.getRestaurant().setImageUrl(imageUrl);
+            }
 
 
         }

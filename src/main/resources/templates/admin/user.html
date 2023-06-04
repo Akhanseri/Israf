@@ -35,8 +35,14 @@
   <tr>
     <td>Is the Restaurant Open:</td>
     <td>
-      <span th:if="${user.restaurant.isOpen}">Yes</span>
-      <span th:unless="${user.restaurant.isOpen}">No</span>
+      <span th:if="${user.restaurant.open}">Yes</span>
+      <span th:unless="${user.restaurant.open}">No</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Restaurant Image:</td>
+    <td>
+      <img th:src="${user.restaurant.imageUrl}" th:alt="Restaurant Image" height="200">
     </td>
   </tr>
 </table>
@@ -44,5 +50,7 @@
 <a th:href="@{/admin/edit-user/{id}(id=${user.id})}">Edit</a>
 </body>
 </html>
+
+
 
 

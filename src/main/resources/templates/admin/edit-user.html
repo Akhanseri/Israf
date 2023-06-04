@@ -7,7 +7,7 @@
 <body>
 <h1>Edit User</h1>
 
-<form method="post" th:action="@{/admin/update-user}">
+<form method="post" th:action="@{/admin/update-user}" enctype="multipart/form-data">
   <input type="hidden" name="id" th:value="${user.id}">
   <label>Username:</label><br>
   <input type="text" name="username" th:value="${user.username}" required><br>
@@ -16,22 +16,29 @@
   <label>Role:</label><br>
   <input type="text" name="role" th:value="${user.role}" required><br>
   <label>Restaurant Name:</label><br>
-  <input type="text" name="restaurant.name" th:value="${user.restaurant.name}" required><br>
+  <input type="text" name="user.restaurant.name" th:value="${user.restaurant.name}" required><br>
   <label>Restaurant Description:</label><br>
-  <input type="text" name="restaurant.description" th:value="${user.restaurant.description}" required><br>
+  <input type="text" name="user.restaurant.description" th:value="${user.restaurant.description}" required><br>
   <label>Restaurant Address:</label><br>
-  <input type="text" name="restaurant.address" th:value="${user.restaurant.address}" required><br>
+  <input type="text" name="user.restaurant.address" th:value="${user.restaurant.address}" required><br>
   <label>Longitude:</label><br>
   <input type="number" name="restaurant.longitude" th:value="${user.restaurant.longitude}" step="0.0000001" required><br>
   <label>Latitude:</label><br>
   <input type="number" name="restaurant.latitude" th:value="${user.restaurant.latitude}" step="0.0000001" required><br>
 
-  <select name="restaurant.open">
+  <select name="user.restaurant.open">
     <option value="true" th:selected="${user.restaurant.open}">Open</option>
     <option value="false" th:selected="${!user.restaurant.open}">Closed</option>
   </select>
+
+  <label>Restaurant Image:</label><br>
+  <input type="file" name="file"><br> <!-- New file input field -->
+
   <input type="submit" value="Save Changes">
 </form>
 </body>
 </html>
+
+
+
 

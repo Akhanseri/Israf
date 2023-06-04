@@ -11,6 +11,28 @@ public class Restaurant  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name="imageadress")
+    private String imageUrl;
+
+    public Restaurant(String imageUrl, Person person, String name, String description, String address, boolean isOpen, double latitude, double longitude) {
+        this.imageUrl = imageUrl;
+        this.person = person;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.isOpen = isOpen;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @OneToOne
     @JoinColumn (name = "person_id",referencedColumnName = "id")
     @JsonIgnore
@@ -38,15 +60,6 @@ public class Restaurant  {
         return id;
     }
 
-    public Restaurant(Person person, String name, String description, String address, boolean isOpen, long latitude, long longitude) {
-        this.person = person;
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.isOpen = isOpen;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
 
     public void setId(int id) {
         this.id = id;

@@ -21,6 +21,8 @@ public class RestaurantService  {
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
+
+
     }
 
     public List<Restaurant> getAllRestaurants() {
@@ -41,9 +43,13 @@ public class RestaurantService  {
         return foundRestaurant.orElse(null);
     }
 
+
+
     public void delete(Restaurant restaurant){
         restaurantRepository.delete(restaurant);
     }
+
+
 
 }
 
