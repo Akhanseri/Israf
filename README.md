@@ -35,6 +35,7 @@ CREATE TABLE Restaurant(
               is_open boolean,
               latitude numeric(10,6),
               longitude numeric(10,6)
+              imageadress varchar
               person_id int UNIQUE REFERENCES Person (id) ON DELETE CASCADE
           
           )
