@@ -60,10 +60,9 @@ public class AdminController {
     }
 
     @PostMapping("/save-user")
-    public String saveUser(@ModelAttribute("user") Person user,
-                           @RequestParam("file") MultipartFile file) {
-        if (!file.isEmpty()) {
-            String imageUrl = storageService.uploadFile(file);
+    public String saveUser(@ModelAttribute("user") Person user, @RequestParam("imageFile") MultipartFile imageFile) {
+        if (!imageFile.isEmpty()) {
+            String imageUrl = storageService.uploadFile(imageFile);
             user.getRestaurant().setImageUrl(imageUrl);
         }
         user.getRestaurant().setPerson(user);
@@ -133,7 +132,7 @@ public class AdminController {
             restaurant.setLongitude(longitude);
             if (!file.isEmpty()) {
                 String imageUrl = storageService.uploadFile(file);
-                user.getRestaurant().setImageUrl(imageUrl);
+                restaurant.setImageUrl(imageUrl);
             }
 
 
